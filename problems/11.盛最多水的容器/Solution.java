@@ -1,19 +1,11 @@
 class Solution {
     //暴力解法
     public int maxArea_1(int[] height) {
-        int maxI = -1, maxHeight = -1;
         int maxArea = Integer.MIN_VALUE;
 
         for (int i = 0; i < height.length; i++) {
-            if (height[i] > maxHeight) {
-                maxHeight = height[i];
-                maxI = i;
-            }
-        }
-
-        for (int j = 0; j < height.length; j++) {
-            if (j != maxI) {
-                maxArea = Math.max(maxArea, getArea(maxI, maxHeight, j, height[j]));
+            for (int j = i + 1; j < height.length; j++) {
+                maxArea = Math.max(maxArea, getArea(i, height[i], j, height[j]));
             }
         }
 
@@ -21,6 +13,14 @@ class Solution {
     }
 
     //双指针法
+    /*
+        area = Min(i, j) * (j - i)
+        初始选择宽度最大的两边组成的面积，此面积因为宽度最大，可能为最大
+        同时在宽度缩小的情况下，寻找可能更大的面积
+        因为宽度变小，只有比初始情况下的短边更长才可能更大
+        因此下次寻找可能最大面积时从短边向内靠近
+        计算出面积后，寻找比该面积可能更大的面积，问题相同，问题规模缩小
+    */
     public int maxArea_2(final int[] height) {
         int i = 0, j = height.length - 1;
         int maxArea = 0;
@@ -37,7 +37,7 @@ class Solution {
         return maxArea;
     }
 
-    //双指针，优化
+    //双指针，优化，短边向内移动时只计算比短边更长的情况
     public int maxArea(final int[] height) {
         int i = 0, j = height.length - 1;
         int maxArea = 0;
