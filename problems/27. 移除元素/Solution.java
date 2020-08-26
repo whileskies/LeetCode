@@ -32,3 +32,5 @@ public class Solution {
         System.out.println(Arrays.toString(nums));
     }
 }
+
+//test
