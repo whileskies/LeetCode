@@ -7,54 +7,47 @@ public class Solution {
         if (digits.length() == 0) {
             return new ArrayList<>();
         }
-        Map<Integer, List<Character>> map = new HashMap<>();
-        map.put(2, Arrays.asList('a', 'b', 'c'));
-        map.put(3, Arrays.asList('d', 'e', 'f'));
-        map.put(4, Arrays.asList('g', 'h', 'i'));
-        map.put(5, Arrays.asList('j', 'k', 'l'));
-        map.put(6, Arrays.asList('m', 'n', 'o'));
-        map.put(7, Arrays.asList('p', 'q', 'r', 's'));
-        map.put(8, Arrays.asList('t', 'u', 'v'));
-        map.put(9, Arrays.asList('w', 'x', 'y', 'z'));
+        Map<Integer, String> map = new HashMap<>() {{
+            put(2, "abc");
+            put(3, "def");
+            put(4, "ghi");
+            put(5, "jkl");
+            put(6, "mno");
+            put(7, "pqrs");
+            put(8, "tuv");
+            put(9, "wxyz");
+        }};
 
-        List<List<Character>> sets = new ArrayList<>();
+        List<String> sets = new ArrayList<>();
+
         for (int i = 0; i < digits.length(); i++) {
             sets.add(map.get(digits.charAt(i) - '0'));
         }
-        List<Character> path = new ArrayList<>();
-        List<List<Character>> tmpRet = new ArrayList<>();
-
-        dfs(sets, tmpRet, path, 0);
-
+        StringBuilder path = new StringBuilder();
         List<String> ret = new ArrayList<>();
-        for (List<Character> charList : tmpRet) {
-            StringBuilder sb = new StringBuilder();
-            for (char c : charList) {
-                sb.append(c);
-            }
-            ret.add(sb.toString());
-        }
+
+        dfs(sets, ret, path, 0);
 
         return ret;
     }
 
-    private void dfs(List<List<Character>> sets, List<List<Character>> ret, List<Character> path, int level) {
+    private void dfs(List<String> sets, List<String> ret, StringBuilder path, int level) {
         if (level == sets.size()) {
-            ret.add(new ArrayList<>(path));
+            ret.add(String.valueOf(path));
             return;
         }
 
-        List<Character> cur = sets.get(level);
-        for (int i = 0; i < cur.size(); i++) {
-            path.add(cur.get(i));
+        String cur = sets.get(level);
+        for (int i = 0; i < cur.length(); i++) {
+            path.append(cur.charAt(i));
             dfs(sets, ret, path, level + 1);
-            path.remove(path.size() - 1);
+            path.deleteCharAt(path.length() - 1);
         }
     }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        List<String> ret = s.letterCombinations("");
+        List<String> ret = s.letterCombinations("23456789");
         System.out.println(ret);
     }
 }
