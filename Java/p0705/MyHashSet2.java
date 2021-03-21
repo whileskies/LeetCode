@@ -1,29 +1,65 @@
 package p0705;
 
-public class MyHashSet {
-    private final boolean[] set = new boolean[1000001];
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class MyHashSet2 {
+    private static final int BASE = 769;
+    private LinkedList[] table;
+
 
     /** Initialize your data structure here. */
-    public MyHashSet() {
-
+    public MyHashSet2() {
+        table = new LinkedList[BASE];
+        for (int i = 0; i < BASE; i++) {
+            table[i] = new LinkedList<Integer>();
+        }
     }
 
     public void add(int key) {
-        set[key] = true;
+        int index = hash(key);
+        Iterator<Integer> it = table[index].iterator();
+        while (it.hasNext()) {
+            int val = it.next();
+            if (val == key)
+                return;
+        }
+        table[index].offerLast(key);
     }
 
     public void remove(int key) {
-        set[key] = false;
+        int index = hash(key);
+        Iterator<Integer> it = table[index].iterator();
+        while (it.hasNext()) {
+            int val = it.next();
+            if (val == key) {
+                it.remove();
+                return;
+            }
+        }
     }
 
     /** Returns true if this set contains the specified element */
     public boolean contains(int key) {
-        return set[key];
+        int index = hash(key);
+        Iterator<Integer> it = table[index].iterator();
+        while (it.hasNext()) {
+            int val = it.next();
+            if (val == key) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int hash(int key) {
+        return key % BASE;
     }
 
 
     public static void main(String[] args) {
-        MyHashSet myHashSet = new MyHashSet();
+        MyHashSet2 myHashSet = new MyHashSet2();
         myHashSet.add(1);      // set = [1]
         myHashSet.add(2);      // set = [1, 2]
         System.out.println(myHashSet.contains(1)); // 返回 True

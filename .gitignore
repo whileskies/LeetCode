@@ -1,2 +1,6 @@
 /Java/.idea/
 /Java/out/
+/Java/contest/
+/Cpp/*/*.exe
+/Cpp/*.exe
+/Cpp/.vscode

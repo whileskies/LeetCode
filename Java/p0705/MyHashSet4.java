@@ -1,35 +1,29 @@
 package p0705;
 
-public class MyHashSet3 {
+public class MyHashSet4 {
     private final int[] buckets = new int[31255];
 
     /** Initialize your data structure here. */
-    public MyHashSet3() {
+    public MyHashSet4() {
 
     }
 
     public void add(int key) {
-        int index = key >> 5;
-        int offset = key & 0x1f;
-        buckets[index] |= 1 << offset;
+        buckets[key >> 5] |= 1 << (key & 0x1f);
     }
 
     public void remove(int key) {
-        int index = key >> 5;
-        int offset = key & 0x1f;
-        buckets[index] &= ~(1 << offset);
+        buckets[key >> 5] &= ~(1 << (key & 0x1f));
     }
 
     /** Returns true if this set contains the specified element */
     public boolean contains(int key) {
-        int index = key >> 5;
-        int offset = key & 0x1f;
-        return (buckets[index] >> offset & 1) == 1;
+        return (buckets[key >> 5] >> (key & 0x1f) & 1) == 1;
     }
 
 
     public static void main(String[] args) {
-        MyHashSet3 myHashSet = new MyHashSet3();
+        MyHashSet4 myHashSet = new MyHashSet4();
         myHashSet.add(1);      // set = [1]
         myHashSet.add(2);      // set = [1, 2]
         System.out.println(myHashSet.contains(1)); // 返回 True
