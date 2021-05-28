@@ -24,7 +24,8 @@ class Node {
 public class Solution {
     private Map<Integer, Node> map = new HashMap<>();
 
-    public Node cloneGraph(Node node) {
+    //bfs
+    public Node cloneGraph0(Node node) {
         if (node == null) return null;
         Node newNode = new Node(node.val, new ArrayList<>());
         map.put(node.val, newNode);
@@ -44,6 +45,24 @@ public class Solution {
         }
 
         return newNode;
+    }
+
+    // dfs
+    public Node cloneGraph(Node node) {
+        if (node == null) return null;
+        dfs(node);
+        return map.get(node.val);
+    }
+
+    private void dfs(Node node) {
+        if (!map.containsKey(node.val)) {
+            Node newNode = new Node(node.val);
+            map.put(node.val, newNode);
+            for (Node n : node.neighbors) {
+                dfs(n);
+                newNode.neighbors.add(map.get(n.val));
+            }
+        }
     }
 
 
